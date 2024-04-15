@@ -12,11 +12,11 @@ import faqImg from '../assets/images/faq-img.png'
 import { Link } from 'react-router-dom'
 import { BsArrowRight } from 'react-icons/bs'
 import About from '../components/About/About'
-//import Services from '../pages/Services'
+import Services from '../pages/Services'
 import ServiceList from '../components/Services/ServiceList'
 import DoctorList from '../components/Doctors/DoctorList'
 import FaqList from '../components/Faq/FaqList'
-//import Testimonial from '../components/Testimonial/Testimonial'
+import Testimonial from '../components/Testimonial/Testimonial'
 const Home = () => {
   return <>
 
@@ -37,7 +37,7 @@ const Home = () => {
                 We help patients live a healthy, longer life.
               </h1>
 
-              <p className='text_para'>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quas minus suscipit omnis ex totam voluptatem illo minima sequi dolorum ipsum, maiores molestiae voluptatibus eaque, eveniet optio repudiandae! Illum, ab architecto.
+              <p className='text_para'>Our team of experienced healthcare professionals is committed to delivering personalized care tailored to each individual's needs. Whether you're seeking routine check-ups, managing a chronic condition, or in need of urgent medical attention, we are here to support you every step of the way.
               </p>
 
               <button className='btn'> Request an Appointment</button>
@@ -281,6 +281,20 @@ const Home = () => {
       </div>
     </section>
     {/*-------------------faq section ends----------------------*/}
+
+    {/*---------------testimonial----------------------*/}
+    <section>
+      <div className="container">
+        <div className='xl:w-[470px] mx-auto'>
+          <h2 className='heading text-center'>What our patients</h2>
+          <p className='text_para text-center'>
+            World Class care for everyone. Our health System offers umatched, expert health care
+          </p>
+        </div>
+        <Testimonial/>
+      </div>
+    </section>
+    {/*---------------testimonial ends----------------------*/}
   </>
 
 };
