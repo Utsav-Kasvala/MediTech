@@ -1,6 +1,7 @@
 import React from 'react'
 import aboutImg from '../../assets/images/about.png'
 import aboutCardImg from '../../assets/images/about-card.png'
+import {NavLink , Link } from 'react-router-dom' 
 const About = () => {
   return (
     <section>
@@ -17,6 +18,19 @@ const About = () => {
                 </div>
 
                 {/*--------------about content----------------------*/}
+                <div className='w-full lg:w-1/2 xl:w-[650px] order-1 lg:order-2'>
+                    <h2 className='heading'>Proud to be one to best in India</h2>
+                    <p className='text_para'>
+                        Content here
+                    </p>
+                    <p className='text_para mt-[30px]'>
+                        More Content
+                    </p>
+
+                    <Link to='/'>
+                        <button className='btn'>Learn More</button>
+                    </Link>
+                 </div>
             </div>
         </div>
     </section>
