@@ -95,7 +95,7 @@ export const getAllDoctor = async (req,res) =>{
         }
         res.status(200).json({
             success: true,
-            message: "Doctors found",
+            message: "Doctors found", 
             data: doctors,
         });
         
