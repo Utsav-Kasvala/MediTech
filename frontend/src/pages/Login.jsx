@@ -5,7 +5,7 @@ import { AiFillGoogleCircle } from "react-icons/ai"
 import { Link, useNavigate } from "react-router-dom"
 import { BASE_URL } from "../config"
 import { toast } from "react-toastify"
-import { authContext } from "../context/authContext"
+import { authContext } from "../context/authContext.jsx"
 const Login = () => {
   const [formdata, setFormData] = useState({
     email:'',
@@ -41,6 +41,15 @@ const Login = () => {
         throw new Error(result.message)
       }
 
+      dispatch({
+        type:'LOGIN_SUCCESS',
+        payload:{
+          user: result.data,
+          token: result.token,
+          role:result.role,
+        },
+      })
+     console.log(result,"login data");
       setLoading(false)
       toast.success(result.message)
       navigate('/home')
