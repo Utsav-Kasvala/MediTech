@@ -36,7 +36,7 @@ export const authenticate = async (req, res, next)=>{
 }
 
 export const restrict = roles=>async(req,res,next)=>{
-     const userId = req.userId
+     const userId = req.userId//this id is assumed to be added by the previous authentication middleware
      let user;
 
      const patient = await User.findById(userId);
