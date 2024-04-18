@@ -1,11 +1,20 @@
 import React from 'react'
 import userImg from '../../assets/images/doctor-img01.png';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import {authContext} from './../../context/authContext'
+import MyBookings from './MyBookings';
+import Profile from './Profile';
+import useGetProfile from '../../hooks/useFetchData'
+import { BASE_URL } from '../../config';
 
 const MyAccount = () => {
 
-  const {dispatch} = useContext(authContext)
+  const {dispatch} = useContext(authContext);
+
+  const [tab,setTab] = useState('bookings')
+
+  const {data: userData, loading, error} = useGetProfile(`${BASE_URL}/users/profile/me`)
+  console.log(userData, 'userdata');
 
   const handleLogout =()=>{
     dispatch({type:"LOGOUT"})
@@ -13,11 +22,12 @@ const MyAccount = () => {
 
 
   return (
-    <div className='max-w-[1170px] px-5 mx-auto'>
+   <section>
+     <div className='max-w-[1170px] px-5 mx-auto'>
       <div className="grid md:grid-cols-3 gap-10">
-        <div className="pb-[50px] px-[30px] rounded-md  bg-yellow-300 border-solid border-red-600 border-4 m-2">
+        <div className="pb-[50px] px-[30px] rounded-md  bg-yellow-300 border-solid border-red-600 border-4 ">
           <div className="flex items-center justify-center">
-            <figure className='w-[100px] h-[100px] rounded-full border-2 border-solid border-black'>
+            <figure className='w-[100px] h-[100px] rounded-full border-2 border-solid border-black mt-2'>
               <img src={userImg} alt="" className='w-full h-full rounded-full' />
             </figure>
           </div>
@@ -32,15 +42,25 @@ const MyAccount = () => {
           </div>
         </div>
 
-        <div className="md:col-span-2 md:px-[30px] m-2">
+        <div className="md:col-span-2 md:px-[30px]">
           <div>
-            <button className='p-2 mr-5 px-5 rounded-md text-headingColor font-semibold text-[16px] leading-7 border border-solid border-primaryColor focus:border-4 focus:outline-none focus:bg-black focus:text-white focus:border-lime-500'>My Bookings</button>
+            <button onClick={()=>setTab('bookings')} className={`${tab==='bookings' && 'focus:border-4 focus:outline-none focus:bg-black focus:text-white focus:border-lime-500'} p-2 mr-5 px-5 rounded-md text-headingColor font-semibold text-[16px] leading-7 border border-solid border-primaryColor`}>My Bookings</button>
 
-            <button className='py-2 px-5 rounded-md text-headingColor font-semibold text-[16px] leading-7 border border-solid border-primaryColor focus:border-4 focus:outline-none focus:bg-black focus:text-white focus:border-lime-500'>Profile Settings</button>
+            <button onClick={()=>setTab('settings')} className={`${tab==='settings' && 'focus:border-4 focus:outline-none focus:bg-black focus:text-white focus:border-lime-500'} py-2 px-5 rounded-md text-headingColor font-semibold text-[16px] leading-7 border border-solid border-primaryColor`}>Profile Settings</button>
           </div>
+
+          {
+            tab==='bookings' && <MyBookings/>
+          }
+          {
+            tab==='settings' && <Profile/>
+          }
+
+
         </div>
       </div>
     </div>
+   </section>
   )
 }
 
