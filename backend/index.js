@@ -7,6 +7,7 @@ import authRoute from './Routes/auth.js'
 import userRoute from './Routes/user.js'
 import doctorRoute from './Routes/doctor.js'
 import  reviewRoute from './Routes/review.js'
+import Doctor from "./models/DoctorSchema.js"
 dotenv.config()
 
 const app = express()
@@ -38,7 +39,19 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(cors(corsOptions));
 
+app.get('/topdoctors', async (req, res) => {
+    try {
+      // Fetch doctors sorted by averageRating in descending order
+      const doctors = await Doctor.find().sort({ averageRating: -1 });
+  
+      // Return the doctors as a JSON response
+      res.json(doctors);
+    } catch (error) {
+      res.status(500).json({ message: 'An error occurred', error });
+    }
+  });
 
+  
 app.use('/api/v1/auth',authRoute);
 app.use('/api/v1/users',userRoute);
 app.use('/api/v1/doctors',doctorRoute);
