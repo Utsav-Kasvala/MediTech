@@ -34,10 +34,13 @@ const connectDB = async () => {
 };
 
 
+
+
 //middleware
 app.use(express.json());  
 app.use(cookieParser());
 app.use(cors(corsOptions));
+
 
 // app.get('/topdoctors', async (req, res) => {
 //     try {
@@ -50,7 +53,6 @@ app.use(cors(corsOptions));
 //       res.status(500).json({ message: 'An error occurred', error });
 //     }
 //   });
-
   
 app.use('/api/v1/auth',authRoute);
 app.use('/api/v1/users',userRoute);
