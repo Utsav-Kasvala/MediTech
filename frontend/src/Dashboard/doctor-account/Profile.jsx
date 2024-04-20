@@ -1,12 +1,15 @@
 import React, { useState } from 'react'
 import { AiOutlineDelete } from 'react-icons/ai'
-
-const Profile = () => {
+import uploadImageToCloudinary from './../../utils/uploadCloudinary'
+import  {BASE_URL,token} from './../../config'
+import {toast} from 'react-toastify'
+const Profile = ({doctorData}) => {
 
     const [formData, setFormData] = useState({
         name: "",
         email: "",
-        phone: "",
+        password:"",
+        phone: "",   
         bio: "",
         gender: "",
         specialization: "",
@@ -14,7 +17,7 @@ const Profile = () => {
         qualifications: [
         ],
         experiences: [],
-        timeSlots: [{ day: "", startingTime: "", endingTime: "" }],
+        timeSlots: [],
         about: "",
         photo:null
     })
@@ -22,12 +25,34 @@ const Profile = () => {
         setFormData({ ...formData, [e.target.name]: e.target.value })
     };
 
-    const handleFileInputChange = e => {
-
+    const handleFileInputChange = async event => {
+         const file =event.target.files[0]
+         const data=await uploadImageToCloudinary(file)
+         setFormData({...formData,photo :data?.url})
     };
 
     const updateProfileHandler = async e =>{
         e.preventDefault();
+
+        try {
+            const res=await fetch(`${BASE_URL}/doctors/${doctorData._id}`,{
+        method:'PUT',
+        headers:{
+            'content-type':'application/json',
+            Authorization : `Bearer ${token}`
+        },
+         body : JSON.stringify(formData)
+        })
+        const result =await res.json()
+        if(!res.ok){
+            throw Error(result.message);
+        }
+
+        toast.success(result.message)
+ 
+        } catch (err) {
+             toast.error(err.message)
+        }
     }
 
     //reusable function for adding item
@@ -82,6 +107,21 @@ const Profile = () => {
     const deleteExperience = (e,index)=>{
         e.preventDefault()
         deleteItem('experiences',index)
+    }
+    //Time Slots
+    const addTimeSlot = e =>{
+        e.preventDefault();
+
+        addItem("timeSlots",{ day: "Sunday", startingTime: "10:00", endingTime: "04:30" });
+    };
+
+    const handleTimeSlotChange = (event,index)=>{
+        handleReusableInputChangeFunc('timeSlots',index,event)
+    }
+
+    const deleteTimeSlot = (e,index)=>{
+        e.preventDefault()
+        deleteItem('timeSlots',index)
     }
     return (
         <div>
@@ -285,7 +325,7 @@ const Profile = () => {
                             <div className='grid grid-cols-2 md:grid-cols-4 mb-[30px] gap-5'>
                                 <div>
                                     <p className="form_label ml-1">Day*</p>
-                                    <select name="day" value={item.day} className='form_input py-3.5'>
+                                    <select onChange={e=>handleTimeSlotChange(e,index)} name="day" value={item.day} className='form_input py-3.5'>
                                         <option value="">Select</option>
                                         <option value="saturday">Saturday</option>
                                         <option value="sunday">Sunday</option>
@@ -302,7 +342,8 @@ const Profile = () => {
                                         type="time"
                                         name='startingTime'
                                         value={item.startingTime}
-                                        className='form_input' />
+                                        className='form_input' 
+                                        onChange={e=>handleTimeSlotChange(e,index)}/>
                                 </div>
                                 <div>
                                     <p className="form_label ml-1">Ending Time*</p>
@@ -310,9 +351,10 @@ const Profile = () => {
                                         type="time"
                                         name='endingTime'
                                         value={item.endingTime}
-                                        className='form_input' />
+                                        className='form_input' 
+                                        onChange={e=>handleTimeSlotChange(e,index)}/>
                                 </div>
-                                <div className='flex items-center'>
+                                <div onClick={e=>deleteTimeSlot(e,index)}className='flex items-center'>
                                     <button className='bg-red-600 p-2 rounded-full text-white text-[18px] mt-6 cursor-pointer'><AiOutlineDelete /></button>
                                 </div>
                             </div>
@@ -321,7 +363,7 @@ const Profile = () => {
                         </div>
                     </div>)}
 
-                    <button className='bg-[#000] py-2 px-5 rounded text-white h-fit cursor-pointer'>Add Time Slots</button>
+                    <button onClick={addTimeSlot}className='bg-[#000] py-2 px-5 rounded text-white h-fit cursor-pointer'>Add Time Slots</button>
                 </div>
 
                 <div className="mb-5">
