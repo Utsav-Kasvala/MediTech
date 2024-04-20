@@ -13,7 +13,7 @@ const Profile = () => {
         ticketPrice: 0,
         qualifications: [
         ],
-        experiences: [{ startingDate: "", endingDate: "", position: "", hospital: "" }],
+        experiences: [],
         timeSlots: [{ day: "", startingTime: "", endingTime: "" }],
         about: "",
         photo:null
@@ -32,7 +32,7 @@ const Profile = () => {
 
     //reusable function for adding item
     const addItem = (key,item) => {
-        setFormData(prevFormdata=>({...prevFormdata,[key]:[...prevFormdata[key],item]}))//prevFormdata=>() returns the whole thing written in paranthesis
+        setFormData(prevFormData=>({...prevFormData,[key]:[...prevFormData[key],item]}))//prevFormData=>() returns the whole thing written in paranthesis
     }
 
     //reusable input change function
@@ -40,23 +40,48 @@ const Profile = () => {
 
         const {name,value} =event.target
 
-        setFormData(prevFormdata=>{
-            const updateItems = [...prevFormdata[key]]
+        setFormData(prevFormData=>{
+            const updateItems = [...prevFormData[key]]
             updateItems[index][name]=value
             return{
-                ...prevFormdata,
+                ...prevFormData,
                 [key]:updateItems,
             };
         });
     };
+
+    //reusable function for deleting item
+    const deleteItem=(key,index)=>{
+        setFormData(prevFormData=>({...prevFormData, [key]:prevFormData[key].filter((_,i)=>i!==index)}))
+    }
     const addQualification = e =>{
         e.preventDefault();
 
-        addItem("qualifications",{ startingDate: "", endingDate: "", degree: "", university: "" });
+        addItem("qualifications",{ startingDate: "", endingDate: "", degree: "MBBS/MS/MD", university: "Govt.Medical College" });
     };
 
     const handleQualificationChange = (event,index)=>{
         handleReusableInputChangeFunc('qualifications',index,event)
+    }
+
+    const deleteQualification = (e,index)=>{
+        e.preventDefault()
+        deleteItem('qualifications',index)
+    }
+
+    const addExperience = e =>{
+        e.preventDefault();
+
+        addItem("experiences",{ startingDate: "", endingDate: "", position: "Junior/Senior Surgeon", hospital: "Govt.Medical College" });
+    };
+
+    const handleExperienceChange = (event,index)=>{
+        handleReusableInputChangeFunc('experiences',index,event)
+    }
+
+    const deleteExperience = (e,index)=>{
+        e.preventDefault()
+        deleteItem('experiences',index)
     }
     return (
         <div>
@@ -196,7 +221,7 @@ const Profile = () => {
                                 </div>
                             </div>
 
-                            <button className='bg-red-600 p-2 rounded-full text-white text-[18px] mt-2 mb-[30px] cursor-pointer'><AiOutlineDelete /></button>
+                            <button onClick={e=>deleteQualification(e,index)} className='bg-red-600 p-2 rounded-full text-white text-[18px] mt-2 mb-[30px] cursor-pointer'><AiOutlineDelete /></button>
                         </div>
                     </div>)}
 
@@ -213,7 +238,8 @@ const Profile = () => {
                                         type="date"
                                         name='startingDate'
                                         value={item.startingDate}
-                                        className='form_input' />
+                                        className='form_input' 
+                                        onChange={e=>handleExperienceChange(e,index)}/>
                                 </div>
                                 <div>
                                     <p className="form_label">Ending Date*</p>
@@ -221,7 +247,8 @@ const Profile = () => {
                                         type="date"
                                         name='endingDate'
                                         value={item.endingDate}
-                                        className='form_input' />
+                                        className='form_input' 
+                                        onChange={e=>handleExperienceChange(e,index)}/>
                                 </div>
                             </div>
                             <div className='grid grid-cols-2 gap-5 mt-5'>
@@ -231,7 +258,8 @@ const Profile = () => {
                                         type="text"
                                         name='position'
                                         value={item.position}
-                                        className='form_input' />
+                                        className='form_input' 
+                                        onChange={e=>handleExperienceChange(e,index)}/>
                                 </div>
                                 <div>
                                     <p className="form_label">Hospital*</p>
@@ -239,15 +267,16 @@ const Profile = () => {
                                         type="text"
                                         name='hospital'
                                         value={item.hospital}
-                                        className='form_input' />
+                                        className='form_input' 
+                                        onChange={e=>handleExperienceChange(e,index)}/>
                                 </div>
                             </div>
 
-                            <button className='bg-red-600 p-2 rounded-full text-white text-[18px] mt-2 mb-[30px] cursor-pointer'><AiOutlineDelete /></button>
+                            <button onClick={e=>deleteExperience(e,index)} className='bg-red-600 p-2 rounded-full text-white text-[18px] mt-2 mb-[30px] cursor-pointer'><AiOutlineDelete /></button>
                         </div>
                     </div>)}
 
-                    <button className='bg-[#000] py-2 px-5 rounded text-white h-fit cursor-pointer'>Add Experience</button>
+                    <button onClick={addExperience} className='bg-[#000] py-2 px-5 rounded text-white h-fit cursor-pointer'>Add Experience</button>
                 </div>
                 <div className="mb-5">
                     <p className='form_label text-[20px]  text-black font-bold border-b-2 border-solid items-center justify-center flex border-black'>Time Slots*</p>
