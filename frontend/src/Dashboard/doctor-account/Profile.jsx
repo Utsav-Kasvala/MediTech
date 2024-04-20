@@ -11,17 +11,56 @@ const Profile = () => {
         gender: "",
         specialization: "",
         ticketPrice: 0,
-        qualifications: [{ startingDate: "", endingDate: "", degree: "", university: "" }],
+        qualifications: [
+        ],
         experiences: [{ startingDate: "", endingDate: "", position: "", hospital: "" }],
         timeSlots: [{ day: "", startingTime: "", endingTime: "" }],
-        about: ""
+        about: "",
+        photo:null
     })
     const handleInputChange = e => {
         setFormData({ ...formData, [e.target.name]: e.target.value })
     };
+
+    const handleFileInputChange = e => {
+
+    };
+
+    const updateProfileHandler = async e =>{
+        e.preventDefault();
+    }
+
+    //reusable function for adding item
+    const addItem = (key,item) => {
+        setFormData(prevFormdata=>({...prevFormdata,[key]:[...prevFormdata[key],item]}))//prevFormdata=>() returns the whole thing written in paranthesis
+    }
+
+    //reusable input change function
+    const handleReusableInputChangeFunc = (key,index,event)=>{
+
+        const {name,value} =event.target
+
+        setFormData(prevFormdata=>{
+            const updateItems = [...prevFormdata[key]]
+            updateItems[index][name]=value
+            return{
+                ...prevFormdata,
+                [key]:updateItems,
+            };
+        });
+    };
+    const addQualification = e =>{
+        e.preventDefault();
+
+        addItem("qualifications",{ startingDate: "", endingDate: "", degree: "", university: "" });
+    };
+
+    const handleQualificationChange = (event,index)=>{
+        handleReusableInputChangeFunc('qualifications',index,event)
+    }
     return (
         <div>
-            <h2 className='text-headingColor font-bold text-[24px]'>Profile Information</h2>
+            <h2 className='text-headingColor font-bold text-[24px] flex items-center justify-center border-b-2 border-solid border-black'>Profile Information</h2>
 
             <form>
                 <div className='mb-5'>
@@ -113,7 +152,7 @@ const Profile = () => {
                 </div>
 
                 <div className="mb-5">
-                    <p className='form_label'>Qulaifications*</p>
+                    <p className='form_label text-[20px]  text-black font-bold border-b-2 border-solid items-center justify-center flex border-black'>Qulaifications*</p>
                     {formData.qualifications?.map((item, index) => <div key={index}>
                         <div>
                             <div className='grid grid-cols-2 gap-5'>
@@ -123,7 +162,8 @@ const Profile = () => {
                                         type="date"
                                         name='startingDate'
                                         value={item.startingDate}
-                                        className='form_input' />
+                                        className='form_input'
+                                        onChange={e=>handleQualificationChange(e,index)} />
                                 </div>
                                 <div>
                                     <p className="form_label">Ending Date*</p>
@@ -131,7 +171,8 @@ const Profile = () => {
                                         type="date"
                                         name='endingDate'
                                         value={item.endingDate}
-                                        className='form_input' />
+                                        className='form_input' 
+                                        onChange={e=>handleQualificationChange(e,index)}/>
                                 </div>
                             </div>
                             <div className='grid grid-cols-2 gap-5 mt-5'>
@@ -141,7 +182,8 @@ const Profile = () => {
                                         type="text"
                                         name='degree'
                                         value={item.degree}
-                                        className='form_input' />
+                                        className='form_input' 
+                                        onChange={e=>handleQualificationChange(e,index)}/>
                                 </div>
                                 <div>
                                     <p className="form_label">University*</p>
@@ -149,7 +191,8 @@ const Profile = () => {
                                         type="text"
                                         name='university'
                                         value={item.university}
-                                        className='form_input' />
+                                        className='form_input' 
+                                        onChange={e=>handleQualificationChange(e,index)}/>
                                 </div>
                             </div>
 
@@ -157,10 +200,10 @@ const Profile = () => {
                         </div>
                     </div>)}
 
-                    <button className='bg-[#000] py-2 px-5 rounded text-white h-fit cursor-pointer'>Add Qualification</button>
+                    <button onClick={addQualification} className='bg-[#000] py-2 px-5 rounded text-white h-fit cursor-pointer'>Add Qualification</button>
                 </div>
                 <div className="mb-5">
-                    <p className='form_label'>Experiences*</p>
+                    <p className='form_label text-[20px] text-black font-bold border-b-2 border-solid items-center justify-center flex border-black'>Experiences*</p>
                     {formData.experiences?.map((item, index) => <div key={index}>
                         <div>
                             <div className='grid grid-cols-2 gap-5'>
@@ -207,7 +250,7 @@ const Profile = () => {
                     <button className='bg-[#000] py-2 px-5 rounded text-white h-fit cursor-pointer'>Add Experience</button>
                 </div>
                 <div className="mb-5">
-                    <p className='form_label'>Time Slots*</p>
+                    <p className='form_label text-[20px]  text-black font-bold border-b-2 border-solid items-center justify-center flex border-black'>Time Slots*</p>
                     {formData.timeSlots?.map((item, index) => <div key={index}>
                         <div>
                             <div className='grid grid-cols-2 md:grid-cols-4 mb-[30px] gap-5'>
@@ -253,7 +296,7 @@ const Profile = () => {
                 </div>
 
                 <div className="mb-5">
-                    <p className='form_label'>About*</p>
+                    <p className='form_label text-[20px]  text-black font-bold border-b-2 border-solid items-center justify-center flex border-black'>About*</p>
                     <textarea
                         name="about"
                         rows={5}
@@ -261,6 +304,29 @@ const Profile = () => {
                         placeholder='Wrtie about you'
                         onChange={handleInputChange}
                         className='form_input'></textarea>
+                </div>
+
+                <div className="mb-5 flex items-center gap-3">
+                    {formData.photo && <figure className='w-[60px] h-[60px] rounded-full border-2 border-solid border-black flex items-center justify-center'>
+                        <img src={formData.photo} alt="" className='w-full rounded-full' />
+                    </figure>}
+
+                    <div className='relative w-[130px] h-[50px]'>
+                        <input
+                            type="file"
+                            name='photo'
+                            id='customFile'
+                            onChange={handleFileInputChange}
+                            accept='.jpg, .png'
+                            className='absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer' />
+                        <label htmlFor="customFile" className='absolute top-0 left-0 w-full h-full flex items-center px-[0.75rem] py-[0.375rem] text-[15px] leading-6 overflow-hidden bg-[#0066ff46] text-headingColor font-semibold rounded-lg truncate cursor-pointer'>
+                            Upload Photo
+                        </label>
+                    </div>
+                </div>
+                <div className="mt-7">
+                    <button type='submit' onClick={updateProfileHandler} className='bg-primaryColor text-white text-[18px] leading-[30px] w-full py-3 px-4
+                    rounded-lg'>Update Profile</button>
                 </div>
             </form>
         </div>
