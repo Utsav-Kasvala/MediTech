@@ -47,7 +47,7 @@ const Dashboard = () => {
                 </div>
                 <DoctorAbout name={data.name} about={data.about} qualification={data.qualifications} experiences={data.experiences}/>
             </div> ) }
-            {tab=='appointments' && <div>appointments</div> }
+            {tab=='appointments' && <Appointments appointments={data.appointments}/> }
             {tab=='settings' && <Profile doctorData={data}/> }
           </div>
  

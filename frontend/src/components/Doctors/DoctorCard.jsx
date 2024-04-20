@@ -3,7 +3,7 @@ import starIcon from '../../assets/images/Star.png'
 import { Link} from 'react-router-dom'
 import   { BsArrowRight } from "react-icons/bs"
 const DoctorCard = ({doctor}) => {
-  const {name ,avgRating,totalRating,photo,specialization,totalPatients,hospital}=doctor 
+  const {name ,avgRating,totalRating,photo,specialization,experiences}=doctor 
   return (
     <div className='p-3 lg:p-5'>
         <div>
@@ -21,11 +21,11 @@ const DoctorCard = ({doctor}) => {
 
       <div className='mt-[18px] lg:mt-5 flex items-center justify-between'>
         <div>
-          <h3 className='text-[16px] leading-7 lg:text-[18px] lg:leading-[30px] font-semibold text-headingColor'>
+          {/* <h3 className='text-[16px] leading-7 lg:text-[18px] lg:leading-[30px] font-semibold text-headingColor'>
             +{totalPatients} patients
-          </h3>
+          </h3> */}
           <p className='text-[14px] leading-6 font-[400] text-textColor '>
-            At {hospital}
+            At {experiences &&   experiences[0]?.hospital}  
           </p>
         </div>
 
