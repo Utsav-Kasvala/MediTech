@@ -82,7 +82,7 @@ export const login = async (req,res)=>{
         }
 
         if(!user){
-            res.status(500).json({ success:false, message:'user not found'})
+            return res.status(500).json({ success:false, message:'user not found'})
 
         }
 
@@ -90,7 +90,7 @@ export const login = async (req,res)=>{
          
 
         if(!isPasswordMatch){
-            res.status(500).json({success :false,message:'Invalid credentials'})
+            return res.status(500).json({success :false,message:'Invalid credentials'})
 
         }
 

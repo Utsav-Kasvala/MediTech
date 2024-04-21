@@ -10,7 +10,7 @@ import HashLoader from 'react-spinners/HashLoader'
 const Profile = ({user}) => {
     const [selectedFile, setSelectedFile] = useState(null);
     
-
+    const users = user;
     const [loading, setLoading] = useState(false);
 
     const [formdata, setFormData] = useState({
@@ -25,8 +25,8 @@ const Profile = ({user}) => {
     const navigate = useNavigate();
 
     useEffect(()=>{
-        setFormData({name:user.name , email:user.email, photo:user.photo, gender:user.gender, bloodType:user.bloodType});
-    },[user])
+        setFormData({name:users.name , email:users.email, photo:users.photo, gender:users.gender, bloodType:users.bloodType});
+    },[users])
 
     const handleInputChange = e => {
         setFormData({ ...formdata, [e.target.name]: e.target.value })
@@ -35,20 +35,20 @@ const Profile = ({user}) => {
     const handleFileInputChange = async event => {
         const file = event.target.files[0]
         //later we will use cloudinary to upload images
-        //console.log(file)
+        
         const data = await uploadImageToCloudinary(file);
-        // console.log(data)
+        
         
         setSelectedFile(data.url);
         setFormData({ ...formdata, photo: data.url })
     }
 
     const submitHandler = async event => {
-        //console.log(formdata)
+       
         event.preventDefault();
         setLoading(true);
         try {
-            const res = await fetch(`${BASE_URL}/users/${user._id}`, {
+            const res = await fetch(`${BASE_URL}/users/${users._id}`, {
                 method: 'put',
                 headers: {
                     'Content-Type': 'application/json',
