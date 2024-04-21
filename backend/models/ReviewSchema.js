@@ -53,7 +53,7 @@ reviewSchema.statics.calcAverageRatings = async function(doctorId){
     totalRating: stats[0].numberofRating,
     averageRating: stats[0].avgRating,
   });
-  console.log(doctor);
+  //console.log(doctor);
 }
 
 reviewSchema.post('save',function(){

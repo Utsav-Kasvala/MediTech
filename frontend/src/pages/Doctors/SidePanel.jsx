@@ -1,8 +1,10 @@
 //import React from 'react'
-
+/*eslint-disable react/prop */
 import { useState } from "react"
 
-const SidePanel = () => {
+import convertTime from "../../utils/convertTime"
+
+const SidePanel = ({doctorId, ticketPrice, timeSlots}) => {
 
   const [openPanel,setOpenPanel]=useState(false)
   const panelOpen = ()=>{
@@ -13,7 +15,7 @@ const SidePanel = () => {
     {openPanel && <div className='shadow-panelShadow p-3 lg:p-5 rounded-md'>
     <div className='flex items-center justify-between'>
         <p className='text_para mt-0 font-semibold'>CheckUp Price</p>
-        <span className='text-[16px] leading-7 lg:text-[22px] lg:leading-8 text-headingColor font-bold'>500 Rs</span>
+        <span className='text-[16px] leading-7 lg:text-[22px] lg:leading-8 text-headingColor font-bold'>{ticketPrice} Rs</span>
     </div>
 
     <div className='mt-[30px]'>
@@ -21,30 +23,14 @@ const SidePanel = () => {
         Available Time Slots:
       </p>
       <ul className='mt-3'>
-        <li className='flex items-center justify-between mb-2'>
+        {timeSlots?.map((item,index)=>(
+          <li key={index} className='flex items-center justify-between mb-2'>
           <p className='text-[15px] leading-6 text-textColor font-semibold'>
-            Sunday
+            {item.day.charAt(0).toUpperCase() + item.day.slice(1)}
           </p>
-          <p className='text-[15px] leading-6 text-textColor font-semibold'>3:00 P.M. to 10:45 P.M.</p>
+          <p className='text-[15px] leading-6 text-textColor font-semibold'>{convertTime(item.startingTime)} to {convertTime(item.endingTime)}</p>
         </li>
-        <li className='flex items-center justify-between mb-2'>
-          <p className='text-[15px] leading-6 text-textColor font-semibold'>
-            Tuesday
-          </p>
-          <p className='text-[15px] leading-6 text-textColor font-semibold'>2:00 P.M. to 8:15 P.M.</p>
-        </li>
-        <li className='flex items-center justify-between mb-2'>
-          <p className='text-[15px] leading-6 text-textColor font-semibold'>
-            Thursday
-          </p>
-          <p className='text-[15px] leading-6 text-textColor font-semibold'>3:00 P.M. to 10:45 P.M.</p>
-        </li>
-        <li className='flex items-center justify-between mb-2'>
-          <p className='text-[15px] leading-6 text-textColor font-semibold'>
-            Friday
-          </p>
-          <p className='text-[15px] leading-6 text-textColor font-semibold'>2:00 P.M. to 8:15 P.M.</p>
-        </li>
+        ))}
       </ul>
     </div>
     {/*btn px-2 w-full rounded-md */}
