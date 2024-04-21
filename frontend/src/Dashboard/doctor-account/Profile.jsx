@@ -48,6 +48,24 @@ const Profile = ({ doctorData }) => {
         setFormData({ ...formData, photo: data?.url })
     };
 
+    const resetvalue =()=>{
+        setFormData({
+            name: "",
+        email: "",
+        password: "",
+        phone: "",
+        bio: "",
+        gender: "",
+        specialization: "",
+        ticketPrice: 0,
+        qualifications: [
+        ],
+        experiences: [],
+        timeSlots: [],
+        about: "",
+        photo: null
+        })
+    }
     const updateProfileHandler = async e => {
         e.preventDefault();
         try {
@@ -67,6 +85,8 @@ const Profile = ({ doctorData }) => {
             }
 
             toast.success(result.message)
+
+            resetvalue();
 
         } catch (err) {
             console.log(err)
