@@ -3,8 +3,35 @@
 import { useState } from "react"
 
 import convertTime from "../../utils/convertTime"
+import{ BASE_URL, token } from '../../config'
+import { toast } from 'react-toastify'
 
 const SidePanel = ({doctorId, ticketPrice, timeSlots}) => {
+
+  const bookingHandler = async()=>{
+    try {
+      const res = await fetch(`${BASE_URL}/bookings/checkout-session/${doctorId}`,{
+        method:'post',
+        headers:{
+          Authorization:`Bearer ${token}`
+        }
+      });
+      const data = await res.json();
+
+      if(!res.ok)
+      {
+        throw new Error(data.message + 'Please try again')
+      }
+
+      if(data.session.url){
+        window.location.href= data.session.url
+      }
+
+
+    } catch (err) {
+      toast.error(err.message)
+    }
+  }
 
   const [openPanel,setOpenPanel]=useState(false)
   const panelOpen = ()=>{
@@ -34,7 +61,7 @@ const SidePanel = ({doctorId, ticketPrice, timeSlots}) => {
       </ul>
     </div>
     {/*btn px-2 w-full rounded-md */}
-    <button className='cursor-pointer rounded-[30px] border-none bg-primaryColor pt-2 pb-2 items-center px-2 mt-[30px] mb-2 w-full text-white'>Book Appointment</button>
+    <button onClick={bookingHandler} className='cursor-pointer rounded-[30px] border-none bg-primaryColor pt-2 pb-2 items-center px-2 mt-[30px] mb-2 w-full text-white'>Book Appointment</button>
 </div>}</>
       
     )

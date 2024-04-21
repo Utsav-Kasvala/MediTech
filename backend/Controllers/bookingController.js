@@ -1,6 +1,6 @@
-import Doctor from '../models/DoctorSchema'
-import Booking from '../models/BookingSchema'
-import User from '../models/UserSchema'
+import Doctor from '../models/DoctorSchema.js'
+import Booking from '../models/BookingSchema.js'
+import User from '../models/UserSchema.js'
 import Stripe from 'stripe'
 
 export  const getCheckoutSession=async(req,res)=>{
@@ -21,7 +21,7 @@ export  const getCheckoutSession=async(req,res)=>{
             line_items:[
                 {
                     price_data:{
-                        currency:'Ruppes',
+                        currency:'bdt',
                         unit_amount:doctor.ticketPrice*100,
                         product_data:{
                             name:doctor.name,
@@ -46,9 +46,10 @@ export  const getCheckoutSession=async(req,res)=>{
 
         await booking.save()
 
-        res.send(200).json({success:true,message:'Successfully Paid',session})
+        res.status(200).json({success:true,message:'Successfully Paid',session})
 
     } catch (error) {
+        // console.log(error)
         res.status(500).json({success:false,message:'Error creating checkout session'});
     }
 }
