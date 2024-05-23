@@ -16,7 +16,7 @@ const port = process.env.PORT || 8000
 
 const corsOptions={
     origin: ["https://medi-tech-frontend.vercel.app"],
-    methods:["POST","GET"],
+    methods:["POST","GET","PUT","DELETE"],
     credentials:true,
 };
 
