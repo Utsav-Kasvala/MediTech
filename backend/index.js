@@ -42,7 +42,9 @@ const connectDB = async () => {
 //middleware
 app.use(express.json());  
 app.use(cookieParser());
-app.use(cors(corsOptions));
+app.use(cors({
+    origin: 'https://medi-tech-frontend.vercel.app'
+}));
 
 
 // app.get('/topdoctors', async (req, res) => {
