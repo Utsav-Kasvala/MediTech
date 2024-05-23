@@ -15,7 +15,9 @@ const app = express()
 const port = process.env.PORT || 8000
 
 const corsOptions={
-    origin: 'https://medi-tech-frontend.vercel.app'
+    origin: 'https://medi-tech-frontend.vercel.app',
+    credentials:true,
+    secure:true
 };
 
 app.get('/',(req,res)=>{
