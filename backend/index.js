@@ -15,9 +15,7 @@ const app = express()
 const port = process.env.PORT || 8000
 
 const corsOptions={
-    origin: ["https://medi-tech-frontend.vercel.app"],
-    methods:["POST","GET","PUT","DELETE"],
-    credentials:true,
+    origin:true
 };
 
 app.get('/',(req,res)=>{
@@ -36,7 +34,7 @@ const connectDB = async () => {
     }
 };
 
-connectDB();
+
 
 
 //middleware
@@ -66,5 +64,6 @@ app.use('/api/v1/bookings',bookingRoute);
 
 
 app.listen(port,()=>{
+    connectDB();
     console.log("Server is running on port" +port)
 });
