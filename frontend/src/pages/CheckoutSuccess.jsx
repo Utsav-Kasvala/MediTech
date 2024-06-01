@@ -19,14 +19,14 @@ const CheckoutSuccess = () => {
                         Thank you for completing your secure online payment.
                     </p>
                     <p> Have a great day! </p>
-                    <div className="py-10 text-center">
+                    <button className="py-10 text-center">
                         <Link
                             to="/home"
-                           className="px-12 bg-buttonBgColor text-white font-semibold py-3">
+                           className="px-12 bg-buttonBgColor text-black font-semibold py-3 border-2 border-solid border-black">
                         Go Back To Home
                     </Link>
                 
-            </div>
+            </button>
           </div>
         </div>
         </div>

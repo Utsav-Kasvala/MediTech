@@ -5,9 +5,10 @@ import {authContext} from './../../context/authContext'
 import MyBookings from './MyBookings';
 import Profile from './Profile';
 import useGetProfile from '../../hooks/useFetchData'
-import { BASE_URL } from '../../config';
+import { BASE_URL,token } from '../../config';
 import Loading from '../../components/Loader/Loading';
 import Error from '../../Error/Error';
+import { toast } from 'react-toastify';
 const MyAccount = () => {
 
   const {dispatch} = useContext(authContext);
@@ -19,6 +20,22 @@ const MyAccount = () => {
 
   const handleLogout =()=>{
     dispatch({type:"LOGOUT"})
+  }
+
+  const handleDelete = async ()=>{
+    dispatch({type:"LOGOUT"})
+    try{
+    const res= await fetch(`${BASE_URL}/users/${userData._id}`,{
+    method:'delete',
+    headers:{
+      Authorization:`Bearer ${token}`
+    }
+    })
+    console.log(res);
+  }
+    catch (err) {
+      toast.error(err.message)
+    }
   }
 
 
@@ -50,7 +67,7 @@ const MyAccount = () => {
           </div>
           <div className="mt-[50px] md:mt-[100px]">
             <button onClick={handleLogout} className='w-full bg-[#181A1E] p-3 text-[16px] leading-7 rounded-md text-white'>Logout</button>
-            <button className='w-full bg-red-600 mt-4 p-3 text-[16px] leading-7 rounded-md  text-white '>Delete Account</button>
+            <button onClick={handleDelete} className='w-full bg-red-600 mt-4 p-3 text-[16px] leading-7 rounded-md  text-white '>Delete Account</button>
           </div>
         </div>
 

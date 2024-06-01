@@ -23,7 +23,7 @@ const navLinks=[
     display:'Contact'
   },
   {
-    path:'/topdoctors',
+    path:'/doctors/top/doctors',
     display:'Top Doctors'
   },
 ]

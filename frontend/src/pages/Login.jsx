@@ -97,10 +97,11 @@ const Login = () => {
            type="submit" className="w-full bg-primaryColor text-white text-[18px] leading-[30px] rounded-lg px-4 py-2">
             {loading? <HashLoader size={35} color='#ffffff'/> : "Login"}
           </button>
-          <span className="text-[14px] mt-3 mb-3 font-serif">OR</span>
-          {/*type="submit" */}<button className="w-full bg-primaryColor text-white text-[18px] leading-[30px] rounded-lg px-4 py-2 flex justify-center gap-2">
+          {/* <span className="text-[14px] mt-3 mb-3 font-serif">OR</span> */}
+          {/*type="submit" */}
+          {/* <button className="w-full bg-primaryColor text-white text-[18px] leading-[30px] rounded-lg px-4 py-2 flex justify-center gap-2">
             <AiFillGoogleCircle className="text-[30px]"/> Login with google
-          </button>
+          </button> */}
         </div>
 
         <p className="mt-5 text-textColor text-center">Don&apos;t have an Account? 👉<Link to='/register' className="text-primaryColor font-medium ml-1 border border-solid border-primaryColor rounded-md px-1 py-1"> Register</Link></p>

@@ -124,4 +124,23 @@ export const getDoctorProfile= async(req,res)=>{
     }
 };
 
+export const getTopDoctors = async (req,res)=>{
+    try {
+      // Fetch doctors sorted by averageRating in descending order
+      const doctors = await Doctor.find({isApproved: "approved"}).sort({averageRating:-1}).select("-password");
+  
+      // Return the doctors as a JSON response
+      res.status(200).json({
+        success: true,
+        message: "Doctors found",
+        data:doctors
+    });
+    } 
+    catch (err) {
+        res.status(404).json({
+            success: false,
+            message: "Not found",
+        });
+    }
 
+};
