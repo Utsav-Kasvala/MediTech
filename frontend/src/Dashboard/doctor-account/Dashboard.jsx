@@ -8,6 +8,7 @@ import starIcon from '../../assets/images/Star.png'
 import DoctorAbout from  './../../pages/Doctors/DoctorAbout'
 import Profile from './Profile'
 import Appointments from './Appointments'
+import DoctorChat from './DoctorChat'
 const Dashboard = () => {
  
     const {data,loading,error}=useGetProfile(`${BASE_URL}/doctors/profile/me`) 
@@ -49,6 +50,7 @@ const Dashboard = () => {
             </div> ) }
             {tab=='appointments' && <Appointments appointments={data.appointments}/> }
             {tab=='settings' && <Profile doctorData={data}/> }
+            {tab === 'chats' && <DoctorChat />}
           </div>
  
           </div>
