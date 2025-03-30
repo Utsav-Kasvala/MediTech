@@ -13,10 +13,23 @@ const bookingSchema = new mongoose.Schema(
       required: true,
     },
     ticketPrice: { type: String, required: true },
-    // appointmentDate: {
-    //   type: Date,
-    //   required: true,
-    // },
+    timeslot: {
+      date: {
+        type: Date,
+        required: true,
+      },
+      startTime: {
+        type: String,
+        required: true,
+      },
+      endTime: {
+        type: String,
+        required: true,
+      },
+    },
+    session: {
+      type: String, // stores the Stripe session id
+    },
     status: {
       type: String,
       enum: ["pending", "approved", "cancelled"],
@@ -30,12 +43,11 @@ const bookingSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-bookingSchema.pre(/^find/, function(next){
+bookingSchema.pre(/^find/, function(next) {
   this.populate('user').populate({
-    path:'doctor',
-    select:'name',
+    path: 'doctor',
+    select: 'name',
   });
-
   next();
 });
 
