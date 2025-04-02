@@ -5,19 +5,13 @@ const messageSchema = new mongoose.Schema(
     sender: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
-      refPath: "senderModel",
-    },
-    senderModel: {
-      type: String,
-      required: true,
-      enum: ["User", "Doctor"],
     },
     receiver: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
-      refPath: "receiverModel",
     },
-    receiverModel: {
+    // Indicates whether the sender is a "User" or "Doctor"
+    senderType: {
       type: String,
       required: true,
       enum: ["User", "Doctor"],
